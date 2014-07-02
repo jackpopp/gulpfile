@@ -30,7 +30,7 @@ var gulp         = require('gulp'),
     merge        = require('merge-stream'),
     notify       = require('gulp-notify');
 
-// styles
+// CSS/SASS 
 gulp.task('css', function(cb){
 	// compile sass
 	compile = gulp.src(ASSET_DIR+'css/**/*.sass')
@@ -43,6 +43,7 @@ gulp.task('css', function(cb){
 	return merge(compile, copy);
 });
 
+// CSS Optimisation
 gulp.task('cssProd', ['css'], function(cb){
 	// autoprefix, minify, concat
 	return gulp.src(DEV_DEST_DIR+'/css/**/*.*')
@@ -52,12 +53,13 @@ gulp.task('cssProd', ['css'], function(cb){
 		.pipe(gulp.dest(PROD_DEV_DEST_DIR+'/css'))
 });
 
-// images
+// Images
 gulp.task('img', function(){
 	return gulp.src(ASSET_DIR+'img/**/*.*')
 		.pipe(gulp.dest(PROD_DEV_DEST_DIR+'img'));
 });
 
+// Image optimisation
 gulp.task('imgProd', ['img'], function(){
 	return gulp.src(ASSET_DIR+'img/**/*.*')
         .pipe(imagemin({
@@ -68,8 +70,7 @@ gulp.task('imgProd', ['img'], function(){
         .pipe(gulp.dest(DEV_DEST_DIR+'/img'));
 });
 
-// js/coffee
-// compile coffee and copy js into same folder, then run browserify
+// Javascript/Coffeescript
 gulp.task('js', function(cb){
 	// compile
 	compile = gulp.src(ASSET_DIR+'js/**/*.coffee')
@@ -82,6 +83,8 @@ gulp.task('js', function(cb){
 	return merge(compile, copy);
 });
 
+
+// Javascript Opitimisation and Browserify
 gulp.task('jsProd', ['js'], function(){
 	return gulp.src(DEV_DEST_DIR+'/js/'+MAIN_JS)
 		.pipe(browserify())
@@ -89,6 +92,8 @@ gulp.task('jsProd', ['js'], function(){
 		.pipe(gulp.dest(PROD_DEV_DEST_DIR+'/js'));
 });
 
+
+// Clean dev guideline
 gulp.task('clean', function(cb) {
 	return gulp.src([DEV_DEST_DIR], {read: false})
     	.pipe(clean());
