@@ -4,10 +4,11 @@ Files and destination variables
 
 **/
 
-var	ASSET_DIR         = './dev/assets/', // development source assets
+var	ASSET_DIR         = './dev_assets/', // development source assets
 	DEV_DEST_DIR      = './public/dev/assets/', // development destination assets
 	PROD_DEV_DEST_DIR = './public/assets/', // production assets
-	MAIN_JS           = 'main.js'; // compiled js filename
+	MAIN_JS           = 'main.js', // compiled js filename
+	notifyBuilt       = false
 
 /**
 
@@ -18,19 +19,19 @@ Gulp variables
 var gulp         = require('gulp'),
 	watch        = require('gulp-watch'),
 	sass         = require('gulp-ruby-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    minifycss    = require('gulp-minify-css'),
-    coffee       = require('gulp-coffee'),
-    uglify       = require('gulp-uglify'),
-    imagemin     = require('gulp-imagemin'),
-    pngcrush     = require('imagemin-pngcrush'),
-    clean        = require('gulp-clean'),
-    concat       = require('gulp-concat'),
-    browserify   = require('gulp-browserify'),
-    merge        = require('merge-stream'),
-    notify       = require('gulp-notify');
+	autoprefixer = require('gulp-autoprefixer'),
+	minifycss    = require('gulp-minify-css'),
+	coffee       = require('gulp-coffee'),
+	uglify       = require('gulp-uglify'),
+	imagemin     = require('gulp-imagemin'),
+	pngcrush     = require('imagemin-pngcrush'),
+	clean        = require('gulp-clean'),
+	concat       = require('gulp-concat'),
+	browserify   = require('gulp-browserify'),
+	merge        = require('merge-stream'),
+	notify       = require('gulp-notify');
 
-// CSS/SASS 
+// CSS/SASS
 gulp.task('css', function(cb){
 	// compile sass
 	compile = gulp.src(ASSET_DIR+'css/**/*.sass')
@@ -56,7 +57,7 @@ gulp.task('cssProd', ['css'], function(cb){
 // Images
 gulp.task('img', function(){
 	return gulp.src(ASSET_DIR+'img/**/*.*')
-		.pipe(gulp.dest(PROD_DEV_DEST_DIR+'img'));
+		.pipe(gulp.dest(DEV_DEST_DIR+'img'));
 });
 
 // Image optimisation
@@ -104,8 +105,15 @@ gulp.task('clean', function(cb) {
 
 gulp.task('watch', ['clean'], function() {
   // place code for your default task here
-  watch({ glob: ASSET_DIR+'**/*/*.*'}, ['js', 'css', 'img']).pipe(notify({message: 'File changes compiled'}));
+  build = watch({ glob: ASSET_DIR+'**/*/*.*'}, ['js', 'css', 'img'])
+  
+	if (notifyBuilt)
+  	build.pipe(notify({message: 'File changes compiled'}));
 });
+
+// staging build
+gulp.task('staging', ['js', 'css', 'img']);
+
 
 // production
 // compile, minify, optimize
