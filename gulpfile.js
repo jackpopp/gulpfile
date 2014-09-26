@@ -137,5 +137,6 @@ gulp.task('folders', shell.task([
 	'mkdir dev/assets/css',
 	'mkdir dev/assets/img',
 	'touch index.html',
-	'mv gitignore_file .gitignore'
+	'mv gitignore_file .gitignore',
+	'rm readme.md'
 ]));
