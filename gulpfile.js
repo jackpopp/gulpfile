@@ -4,9 +4,9 @@ Files and destination variables
 
 **/
 
-var	ASSET_DIR         = './dev_assets/', // development source assets
-	DEV_DEST_DIR      = './public/dev/assets/', // development destination assets
-	PROD_DEV_DEST_DIR = './public/assets/', // production assets
+var	ASSET_DIR         = './dev/', // development source assets
+	DEV_DEST_DIR      = './assets/', // development destination assets
+	PROD_DEV_DEST_DIR = './assets/', // production assets
 	MAIN_JS           = 'main.js', // compiled js filename
 	notifyBuilt       = false
 
@@ -136,5 +136,6 @@ gulp.task('folders', shell.task([
 	'mkdir dev/assets/js',
 	'mkdir dev/assets/css',
 	'mkdir dev/assets/img',
-	'touch index.html'
+	'touch index.html',
+	'mv gitignore_file .gitignore'
 ]));
