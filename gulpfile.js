@@ -30,6 +30,7 @@ var gulp         = require('gulp'),
 	browserify   = require('gulp-browserify'),
 	merge        = require('merge-stream'),
 	notify       = require('gulp-notify');
+	shell        = require('gulp-shell')
 
 // CSS/SASS
 gulp.task('css', function(cb){
@@ -123,3 +124,17 @@ gulp.task('production', ['cssProd', 'jsProd', 'imgProd'], function(){
 	return gulp.src([DEV_DEST_DIR], {read: false})
     	.pipe(clean());
 });
+
+// only works if folders dont already exist
+gulp.task('folders', shell.task([
+	'mkdir assets',
+	'mkdir assets/js',
+	'mkdir assets/css',
+	'mkdir assets/img',
+	'mkdir dev',
+	'mkdir dev/assets',
+	'mkdir dev/assets/js',
+	'mkdir dev/assets/css',
+	'mkdir dev/assets/img',
+	'touch index.html'
+]));
